@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Mouse Modes Tray
+Comment=System tray icon for Mouse Modes
+Exec=env QT_QPA_PLATFORM=xcb /home/twain/Projects/mouse_modes/mouse_modes/tray_icon_launcher.sh
+Terminal=false
+Icon=/home/twain/.config/mouse_modes/icons/mouse_icon_3498db.png
+Categories=Utility;
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
