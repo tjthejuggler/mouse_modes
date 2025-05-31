@@ -5,6 +5,7 @@ import os
 import sys
 import json
 import subprocess
+import fcntl
 from PyQt5.QtWidgets import (QApplication, QSystemTrayIcon, QMenu, QAction,
                              QDialog, QVBoxLayout, QHBoxLayout, QLabel,
                              QLineEdit, QPushButton, QColorDialog, QTabWidget,
@@ -12,6 +13,16 @@ from PyQt5.QtWidgets import (QApplication, QSystemTrayIcon, QMenu, QAction,
                              QFileDialog, QGridLayout, QGroupBox)
 from PyQt5.QtGui import QIcon, QPixmap, QColor, QPainter, QBrush
 from PyQt5.QtCore import Qt, QTimer, QSize, pyqtSignal
+
+# Singleton instance lock (prevents multiple tray icons)
+LOCK_FILE = '/tmp/mouse_modes_tray.lock'
+lock_fp = None
+try:
+    lock_fp = open(LOCK_FILE, 'w')
+    fcntl.lockf(lock_fp, fcntl.LOCK_EX | fcntl.LOCK_NB)
+except IOError:
+    print("Mouse Modes tray icon is already running. Exiting.")
+    sys.exit(0)
 
 # Configuration
 CONFIG_DIR = os.path.expanduser("~/.config/mouse_modes")
